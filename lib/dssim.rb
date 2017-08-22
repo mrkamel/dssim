@@ -19,8 +19,8 @@ module Dssim
         begin
           FileUtils.cp(path, destination_jpg)
 
-          system("jpegoptim", jpegoptim_options, "-m", quality.to_s, destination_jpg) || raise("jpegoptim error")
-          system("convert", destination_jpg, "-format", "png", destination_png) || raise("convert error")
+          system("jpegoptim #{jpegoptim_options} -m #{quality} #{destination_jpg} &> /dev/null") || raise("jpegoptim error")
+          system("convert #{destination_jpg} -format png #{destination_png} &> /dev/null") || raise("convert error")
 
           res = %x{ #{dssim_path} #{png_path} #{destination_png} }
 
